@@ -140,6 +140,51 @@ c) Now, select "HTTP" as the type.
 
 ![image](https://github.com/user-attachments/assets/2b1f619a-85a5-40cf-b4f4-270f91312bc0)
 
+d) Use 0.0.0.0/0 as the CIDR Block. (Here we are allowing every CIDR block by using this CIDR).
+
+![image](https://github.com/user-attachments/assets/6cc5c363-f3fd-4b3c-b3a2-4af8f3c32a49)
+
+e) Keep outbound rules as it is.
+
+
+![image](https://github.com/user-attachments/assets/ae4ed7b5-e0ac-422d-b253-dd833621fc3f)
+
+f) Now, click on Create security group.
+
+![image](https://github.com/user-attachments/assets/b2eb731b-c088-47dc-b08e-16033941e88a)
+
+
+Now, it is being created successfully.
+
+![image](https://github.com/user-attachments/assets/61e1bde2-c629-4966-9c20-fb04d2f956ea)
+
+Let's attach this security group to our instance.
+
+3. Now navigate to the instance section of left side bar.
+   
+a) Select the instance.
+b) Click on "Actions."
+c) Choose "security.
+
+![image](https://github.com/user-attachments/assets/844baff3-ee1d-4c24-bfe2-a764a60b0f78)
+
+d) Click on "Change security group."
+
+![image](https://github.com/user-attachments/assets/e8e9aa22-0034-4f2f-8203-faf85bde67b0)
+
+
+4. Choose the security group you created.
+
+![image](https://github.com/user-attachments/assets/1b80b91f-52e1-4ed2-bd73-2aff83c5423b)
+
+a) Click on "Add security group"
+
+![image](https://github.com/user-attachments/assets/f0d82c68-afca-4734-a271-be7e9beb1ac9)
+
+b) You can see security group is being added, Click on "save."
+
+Note - The security group named "Launch Wizard" you see is the default security group automatically attached when creating the instance. You can also edit this security group if needed.
+
 
 
 

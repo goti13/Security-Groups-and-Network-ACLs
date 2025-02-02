@@ -62,5 +62,86 @@ Difference between Security Groups and NACL
 Security Groups in AWS act like virtual firewalls that control traffic at the instance level. They define rules for inbound and outbound traffic based on protocols, ports, and IP addresses. Essentially, they protect individual instances by filtering traffic, allowing only authorized communication.
 On the other hand, Network Access Control Lists (NACLs) function at the subnet level, overseeing traffic entering and leaving subnets. They operate as a barrier for entire subnets, filtering traffic based on IP addresses and protocol numbers. Unlike security groups, NACLs are stateless, meaning they don't remember the state of the connection, and each rule applies to both inbound and outbound traffic independently.
 
+Note- In security groups, there's no explicit "deny" option as seen in NACLs; any rule configured within a security group implies permission, meaning that if a rule is established, it's automatically allowed.
+Let's come to the practical part,
+This practical will be in Two parts-
+
+1. Security group
+2. NACL
+   
+Security group
+• Initially We'll examine the configuration of inbound and outbound rules for security groups.
+• Create a security group allowing HTTP for all traffic and attach it to the instance.
+
+Explore various scenarios:
+• Implement inbound traffic rules for HTTP and SSH protocols and allow outbound traffic for all.
+• Configure inbound rules for HTTP with no outbound rules.
+• Remove both inbound and outbound rules.
+• Have no inbound rules but configure outbound rules for all traffic.
+
+
+NACL
+
+• Examine the default settings for both inbound and outbound rules in NACL configuration.
+• Modify the inbound rules to permit traffic from any IPv4 CIDR on all ports.
+• Adjust the outbound rules to allow traffic to all CIDRs.
+Part - 1
+Just a quick reminder about the subnets we configured in our VPC in the [Previous project] In the public subnet, we've created an EC2 instance that is running, hosting our website. Now, let's take a moment to see if we can access the website using its public IP address.
+So this EC2 instance hosts our website.
+
+
+![image](https://github.com/user-attachments/assets/298a7cbb-3c56-480f-b4b0-3e248228b715)
+
+Here's the security group configuration for the instance. In the inbound rules, only IPv4 SSH traffic on port 22 is permitted to access this instance.
+
+![image](https://github.com/user-attachments/assets/f8ffdd50-423b-42cb-a917-5053872aa1db)
+
+For the outbound rule, you'll notice that all IPv4 traffic with any protocol on any port number is allowed, meaning this instance has unrestricted access to anywhere on the internet.
+
+![image](https://github.com/user-attachments/assets/11156f1e-03f6-4b45-8462-d8b47fbb2f78)
+
+
+Now, let's test accessibility to the website using the public IP address assigned to this instance.
+Here, let's retrieve the public IP address.
+
+
+![image](https://github.com/user-attachments/assets/919de670-9488-429b-9457-6aefabd3b709)
+
+
+If you enter "http:// 54.255.228.191" into your Chrome browser, and hit enter, you'll notice that the page doesn't load; it keeps attempting to connect. And finally it'll show this page. After some time, you'll likely see a page indicating that the site can't be reached.
+
+![image](https://github.com/user-attachments/assets/b7a182bb-3600-469b-bffe-8b90dffcc45d)
+
+
+![image](https://github.com/user-attachments/assets/1061f993-7eae-42c9-a13a-558a6d08bd27)
+
+
+This is because of the security group, because we haven't defined HTTP protocol in the security group so whenever the outside world is trying to go inside our instance and trying to get the data, security group is restricting it and that's why we are unable to see the data
+To resolve this issue, we can create a new security group that allows HTTP (port 80) traffic.
+1. Navigate to the "Security Groups" section on the left sidebar.
+a) Then click on "Create Security Group".
+
+![image](https://github.com/user-attachments/assets/089f916d-daed-4895-a764-9c0ad9bb6d17)
+
+2. Please provide a name and description for the new security group.
+a) Ensure to select your VPC during the creation process.
+
+![image](https://github.com/user-attachments/assets/67f25e03-7b9f-43b3-9f95-fb80b508d564)
+
+b) Click on add rule.
+
+![image](https://github.com/user-attachments/assets/57b40239-e634-44e5-b8ff-2dc48241fb18)
+
+This security group has no inbound rules.
+
+![image](https://github.com/user-attachments/assets/39bacac9-409c-4a4a-a4e0-03b64f77c2ba)
+
+c) Now, select "HTTP" as the type.
+
+![image](https://github.com/user-attachments/assets/2b1f619a-85a5-40cf-b4f4-270f91312bc0)
+
+
+
+
 
 

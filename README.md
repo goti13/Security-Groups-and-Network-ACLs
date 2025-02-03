@@ -185,6 +185,53 @@ b) You can see security group is being added, Click on "save."
 
 Note - The security group named "Launch Wizard" you see is the default security group automatically attached when creating the instance. You can also edit this security group if needed.
 
+![image](https://github.com/user-attachments/assets/7fd3ec3a-2ca7-4120-bdd6-b1f9c0153d45)
+![image](https://github.com/user-attachments/assets/7326d579-de60-4b91-b3ef-953eaa1fba4b)
+
+5. Now it is being attached successfully,
+   
+a) If you again copy the public IP address,
+
+![image](https://github.com/user-attachments/assets/307cf0a3-c3e9-480d-aae6-d980b4068dde)
+
+b) And write http:// 54.255.228.191 in Chrome, We'll be able to see the data of our website.
+
+![image](https://github.com/user-attachments/assets/6d3897fd-eef4-48e3-b46b-702e9b93d05c)
+![image](https://github.com/user-attachments/assets/2d7c54e1-250c-4434-acc9-28eb5c852b87)
+
+Currently, let's take a look at how our inbound and outbound rules are configured.
+This setup allows the HTTP and SSH protocols to access the instance.
+
+![image](https://github.com/user-attachments/assets/92c3a347-0311-4059-a2ff-79508a15e105)
+
+The outbound rule permits all traffic to exit the instance.
+
+![image](https://github.com/user-attachments/assets/1d6d12f8-abfb-454d-9192-da7c035fd004)
+
+Through this rule, we're able to access the website.
+
+![image](https://github.com/user-attachments/assets/562bd24c-e78f-43db-9dee-ddc97615b7ce)
+![image](https://github.com/user-attachments/assets/a0fc4a6c-4f9b-48f7-ad19-0f4565fd8702)
+
+6. let's see how removing the outbound rule affects the instance's connectivity. Means now, no one can go outside to this instance.
+   
+a) Go to outbound tab.
+
+b) Click on "edit outbound rules".
+
+![image](https://github.com/user-attachments/assets/bd96c53d-36de-4847-b38a-9ad803f3048d)
+
+c) Click on "Delete."
+
+d) Click on "Save rules."
+
+![image](https://github.com/user-attachments/assets/92631e0b-cc14-4cf6-addf-e211c7b95f81)
+
+
+
+
+
+
 
 
 

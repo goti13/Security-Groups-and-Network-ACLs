@@ -227,6 +227,224 @@ d) Click on "Save rules."
 
 ![image](https://github.com/user-attachments/assets/92631e0b-cc14-4cf6-addf-e211c7b95f81)
 
+Now that we've removed the outbound rule, let's take a look at how it appears in the configuration.
+
+
+![image](https://github.com/user-attachments/assets/5d9ff714-fa85-430b-8abd-198ed24ebd40)
+
+After making this change, let's test whether we can still access the website.
+
+![image](https://github.com/user-attachments/assets/bd5fb72c-a9ae-47b7-afd1-0b260bf42dda)
+![image](https://github.com/user-attachments/assets/5bfb706d-0227-4264-83ef-bbf79a6acd39)
+
+So, even though we've removed the outbound rule that allows all traffic from the instance to the outside world, we can still access the website. According to the logic we discussed, when a user accesses the instance, the inbound rule permits HTTP protocol traffic to enter. However, when the instance sends data to the user's browser to display the website, the outbound rule should prevent it. Yet, we're still able to view the website. Why might that be?
+
+Security groups are stateful, which means they automatically allow return traffic initiated by the instances to which they are attached. So, even though we removed the outbound rule, the security group allows the return traffic necessary for displaying the website, hence we can still access it.
+
+let's explore the scenario,
+If we delete both the inbound and outbound rules, essentially, we're closing all access to and from the instance. This means no traffic can come into the instance, and the instance cannot send any traffic out. So, if we attempt to access the website from a browser or any other client, it will fail because there are no rules permitting traffic to reach the instance. Similarly, the instance won't be able to communicate with any external services or websites because all outbound traffic is also blocked.
+
+7. You will be able to delete the inbound rule in the same way we have deleted the outbound rule.'
+   
+a) Go to outbound tab.
+
+b) Click on edit inbound rule
+
+![image](https://github.com/user-attachments/assets/8311b0e7-f508-4dac-97df-bd89dd524b6c)
+
+C) Click on delete,
+
+d) Click on "Save rule."
+
+![image](https://github.com/user-attachments/assets/18f5ff9c-0e98-4806-802b-d56bf235a854)
+
+Currently, let's have a look at how our inbound and outbound rules are configured.
+
+![image](https://github.com/user-attachments/assets/73ed1f80-6e7e-479f-ba74-5dbf2dad24d2)
+
+![image](https://github.com/user-attachments/assets/32599458-65c7-4efa-aeee-bc60ff9a24e9)
+
+Now, as both the inbound and outbound rules deleted, there's no way for traffic to enter or leave the instance. This means that any attempt to access the website from a browser or any other client will fail because there are no rules permitting traffic to reach the instance. 
+
+In this state, the instance is essentially isolated from both incoming and outgoing traffic.
+So you can't access the website now.
+
+![image](https://github.com/user-attachments/assets/35647f11-1e91-4713-a530-0a9b82a7f78a)
+![image](https://github.com/user-attachments/assets/0135b588-6be8-4e1e-a8a2-bba9fa3626cd)
+
+In the next scenario,
+We'll add a rule specifically allowing HTTP traffic in the outbound rules. This change will enable the instance to initiate outgoing connections over HTTP.
+
+8. Click on edit outbound rule in the outbound tab,
+
+![image](https://github.com/user-attachments/assets/14058a69-1321-4fa1-83f5-46a4e2ca33bd)
+
+a) Click on "add rule"
+
+b) Choose type.
+
+c) Choose destination.
+
+d) Choose CIDR.
+
+e) Click on "save rules"
+
+
+![image](https://github.com/user-attachments/assets/4b47cd95-ed81-4421-8e1f-0ff9229a8540)
+
+![image](https://github.com/user-attachments/assets/8d735c33-4964-4341-a14f-b69088910fac)
+
+
+![image](https://github.com/user-attachments/assets/c0f6c263-caaf-4043-835d-1722873e937f)
+
+Now, let's see if we can access the website,
+
+![image](https://github.com/user-attachments/assets/3ac5e9c8-eba8-4c46-9ce9-2edb28ea5d2e)
+![image](https://github.com/user-attachments/assets/c6b6c3c3-138b-486f-bd2e-5054ea38c22d)
+
+So, we are not able to see it.
+
+But if you look here, we are able to go to the outside world from the instance. We are using here.
+
+![image](https://github.com/user-attachments/assets/f630dd67-301d-44ef-9586-b7606c74c354)
+
+Note- curl is a command-line tool that fetches data from a URL.
+As a result, the instance will be able to fetch data from external sources or communicate with other HTTP-based services on the internet. This adjustment ensures that while incoming connections to the instance may still be restricted, the instance itself can actively communicate over HTTP to external services.
+
+Part - 2
+
+Let's come to NACL
+
+1. First navigate to the search bar and search for VPC.
+a) Then click on VPC.|
+
+![image](https://github.com/user-attachments/assets/96695427-8739-4407-a1a7-5d460631da8b)
+
+2. Navigate to the Network ACLs in the left sidebar.
+   
+a) Click on "Create Network ACL."
+
+![image](https://github.com/user-attachments/assets/7590b0d6-5c4d-42c5-ba6f-a3be1a2b65a9)
+
+3. Now, provide a name for your Network ACL,
+   
+a) Choose the VPC you created in the [Previous session)(./AWS VPC mini project.md) for the practical on VPC creation,
+b) Then click on "Create network ACL".
+
+![image](https://github.com/user-attachments/assets/c65ccdf3-ca5a-44ff-9cb7-0af1912c4900)
+
+4. If you selected the Network ACL you created,
+   
+a) navigate to the "Inbound" tab.
+By default, you'll notice that it's denying all traffic from all ports.
+
+![image](https://github.com/user-attachments/assets/c4dd0c47-fd1d-40a5-aaa5-efb11d888243)
+
+Similarly, if you look at the outbound rules, you'll observe that it's denying all outbound traffic on all ports by default.
+
+b) Select the NACL.
+c) And navigate to the "Outbound" tab.
+
+![image](https://github.com/user-attachments/assets/d920e4c9-d59d-4259-8bf3-21cf3bb2291a)
+
+5. To make changes,
+   
+a) select the NACL,
+b) Go to the "Inbound" tab.
+c) And click on "Edit inbound rules".
+
+![image](https://github.com/user-attachments/assets/ef098bc3-a1a1-45a1-b191-150354d714c5)
+
+6. Now, click on "Add new rule."
+
+![image](https://github.com/user-attachments/assets/084a841e-f3ef-4713-827d-7e380f0d8997)
+
+7. Now, choose the rule number.
+   
+a) Specify the type.
+
+b) Select the source.
+
+c) And determine whether to allow or deny the traffic.
+
+d) Then click on "Save changes."
+
+![image](https://github.com/user-attachments/assets/8d1ab36d-f702-468f-94c4-5866aa4952e2)
+
+
+Currently, this NACL is not associated with any of the subnets in the VPC.
+
+![image](https://github.com/user-attachments/assets/82661aa8-8233-40e0-b03f-8d6d353d2e72)
+
+8. Let's associate it.
+   
+a) Select your NACL.
+
+b) Click on "Actions."
+
+c) Choose "Edit subnet association."
+
+
+![image](https://github.com/user-attachments/assets/851f7e34-e424-40e8-b87e-cff4cab61c36)
+
+d) Then select your public subnet, as our instance resides in the public subnet.
+
+![image](https://github.com/user-attachments/assets/a6a50a4b-1fee-4e57-b218-dc4888fa8dc6)
+
+Once selected, you'll see it listed under "Selected subnets".
+
+e) Finally, click on "Save changes".
+
+![image](https://github.com/user-attachments/assets/4cd8572f-54c2-4e3b-83c4-f66440aa62c7)
+
+You have successfully associated your public subnet to this NACL.
+
+![image](https://github.com/user-attachments/assets/0197aba8-a10a-4e24-a7cc-00a1702fb703)
+
+As soon as you have attached this NACL to your public subnet, and then you try to access the website again by typing the URL http://54.255.228.191/, you will notice that you are unable to see the website.
+
+
+![image](https://github.com/user-attachments/assets/ef5d6da0-068d-4099-a58d-5d54a25d20a8)
+
+Although we've permitted all traffic in the inbound rule of our NACL, we're still unable to access the website. This raises the question: why isn't the website visible despite these permissions?
+The reason why we're unable to access the website despite permitting inbound traffic in the NACL is because NACLs are stateless. They don't automatically allow return traffic. As a result, we must explicitly configure rules for both inbound and outbound traffic.
+Even though the inbound rule allows all traffic into the subnet, the outbound rules are still denying all traffic.
+You can see,
+
+![image](https://github.com/user-attachments/assets/07c5fcce-843a-4626-b697-74e1f1340ac9)
+
+![image](https://github.com/user-attachments/assets/d3cd6d15-c419-47f4-b984-8843b21725fb)
+
+![image](https://github.com/user-attachments/assets/e8f26d14-a74f-4af0-ba57-8523880a281e)
+
+Not able to see website because you are able to go inside of the subnet because of the inbound rule (allow all) but any traffic from subnet is not allowed to go outside due to the
+outbound rule (deny all).
+
+9. If we allow outbound traffic as well,
+    
+a) Choose you NACL.
+b) Go to outbound tab.
+c) Click on "Edit outbound rules."
+
+![image](https://github.com/user-attachments/assets/17663092-04dd-41f2-8007-f358e9c9ce31)
+
+d) Click on "Add rule."
+
+![image](https://github.com/user-attachments/assets/7ce3f10f-3eb4-413e-946e-e1412805e361)
+
+e) Duplicate the process you followed for creating the inbound rules to establish the outbound rules in a similar manner.
+
+![image](https://github.com/user-attachments/assets/a5d7a13f-d4e8-46ee-8437-b049fee3afc3)
+
+
+You have successfully created the rules,
+
+
+
+
+
+
+
 
 
 

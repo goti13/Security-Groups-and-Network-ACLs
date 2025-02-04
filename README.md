@@ -440,6 +440,102 @@ e) Duplicate the process you followed for creating the inbound rules to establis
 You have successfully created the rules,
 
 
+![image](https://github.com/user-attachments/assets/9dbb7a7d-5472-4fed-ac5d-cc5abc210f25)
+
+Upon revisiting the website, you should now be able to access it without any issues.
+
+![image](https://github.com/user-attachments/assets/0c267b8d-edd6-4305-9dc9-40894511e20c)
+![image](https://github.com/user-attachments/assets/ffa11163-da61-4a86-bbd0-f1a07018347c)
+
+Now, let's see one more interesting scenario,
+
+In this scenario:
+Security Group: Allows inbound traffic for HTTP and SSH protocols and permits all outbound traffic.
+Network ACL: Denies all inbound traffic. Let's observe the outcome of this configuration.
+Security group,
+Configuring it,
+
+![image](https://github.com/user-attachments/assets/baf1e0dd-6d4a-4159-b840-d52963060f3f)
+
+![image](https://github.com/user-attachments/assets/f49dfbc7-9169-47c1-80de-b3ad52d9dcab)
+
+![image](https://github.com/user-attachments/assets/f0cf51d4-958b-47f9-b833-c1af7d9492e1)
+
+![image](https://github.com/user-attachments/assets/e29eee5d-0233-4899-907e-3f1165cc837a)
+
+NACL,
+
+Let's remove it so by default it be denied all traffic.
+
+![image](https://github.com/user-attachments/assets/a7f07e8f-d311-4246-944e-01f0e10063f8)
+
+![image](https://github.com/user-attachments/assets/7994f359-80ca-4d60-bb2d-92f764e88b61)
+
+Additionally, the outbound rule will be removed, defaulting to deny all traffic by default.
+
+![image](https://github.com/user-attachments/assets/c1ddba70-b9b7-4d3e-ab82-124de9b9c868)
+
+![image](https://github.com/user-attachments/assets/c9888e60-be95-4dad-ac6a-6bc8d6374124)
+
+Now, let's try to access the website,
+
+![image](https://github.com/user-attachments/assets/e4b847ab-4760-4d08-85eb-634c1818a024)
+![image](https://github.com/user-attachments/assets/257ce490-7568-4341-85c2-9f199b6dfdbc)
+
+So we are unable to access the website. why? Even if we have allowed inbound traffc for HTTP in security group.
+
+Imagine you're at the entrance of a building, and there's a security guard checking everyone who wants to come in. That security guard is like the NACL. They have a list of rules (like "no backpacks
+allowea or no tood or arinks inside , and they check each person against these rules as they enter.
+
+Once vou're inside the building there's another laver of security at each room's door These are like the Security Groups. Each room has its own rules like "onlv emplovees allowed" or "no nets " Once you're inside the building, there's another layer of security at each room's door. These are like the Security Groups. Each room has its own rules, like "only employees allowed" or "no pets.
+These rules are specific to each room, just like Security Groups are specific to each EC2 instance.
+
+So, the traffic first goes through the NACL (the security guard at the entrance), and if it passes those rules, it then goes through the Security Group (the security check at each room's door). If it doesn't meet any of the rules along the way, it's denied entry.
+
+The reason we can't see the website is because the NACL has denied inbound traffic. This prevents traffic from reaching the security group, much like a security guard not allowing entry to another room if access to the building is denied. Similarly, if someone can't enter a building, they can't access any rooms inside without first gaining entry to the building." room if access to the building is denied. Similarly, if someone can't enter a building, they can't access any rooms inside without first gaining entry to the building."
+
+Let's have a look on some scenarios and their outcomes,
+
+• NACL allows all inbound and outbound traffic, Security Group denies all inbound and outbound traffic: Outcome: Website access will be blocked because the Security Group denies all traffic,
+overriding the NACL's allowance.
+
+• NACL denies all inbound and outbound traffic, Security Group allows all inbound and outbound traffic: Outcome: Website access will be blocked because the NACL denies all traffic, regardless of the Security Group's allowances.
+
+• NACL allows HTTP inbound traffic, outbound traffic is denied, Security Group allows inbound traffic and denies outbound traffic: Outcome: Website access will be allowed because the Security Group allows HTTP inbound traffic, regardless of the NACL's allowances. However, if the website requires outbound traffic to function properly, it won't work due to the Security Group's denial of outbound traffic.
+
+• NACL allows all inbound and outbound traffic, Security Group allows HTTP inbound traffic and denies outbound traffic: Outcome: Website access will be allowed because the Security Group allows HTTP inbound traffic, regardless of the NACL's allowances. However, if the website requires outbound traffic to function properly, it won't work due to the Security Group's denial of outbound traffic.
+traffic.
+• NACL allows all inbound and outbound traffic, Security Group allows all inbound and outbound traffic: Outcome: Website access will be allowed, as both NACL and Security Group allow all
+
+• NACL denies all inbound and outbound traffic, Security Group allows HTTP inbound traffic and denies outbound traffic: Outcome: Website access will be blocked because the NACL denies all
+traffic, regardless of the Security Group's allowances.
+
+
+Project Reflection:
+
+• Successfully configured Security Groups and NACLs to control inbound and outbound traffic in AWS.
+
+• Identified the differences between Security Groups and NACLs and their respective roles in network security.
+
+• Explored various scenarios to understand how Security Groups and NACLs interact and impact network traffic.
+
+• Learned valuable troubleshooting techniques for diagnosing and resolving network connectivity issues in AWS.
+
+• Overall, gained practical experience and confidence in managing network security within AWS environments.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
